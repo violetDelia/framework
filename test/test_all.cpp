@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
 #include <glog/logging.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   testing::InitGoogleTest(&argc, argv);
   google::InitGoogleLogging("framework_test");
   FLAGS_log_dir = "./log/";

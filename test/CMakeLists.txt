@@ -1,6 +1,7 @@
 # #---------- external library ----------##
 find_package(GTest 1.13.0 REQUIRED)
 find_package(glog 0.6.0 REQUIRED)
+
 # #---------- set aux variable ----------##
 set(TENSOR_RELATIVE_DIR "tensor")
 cmake_path(APPEND TENSOR_TEST_DIR "${TEST_DIR}" "${TENSOR_RELATIVE_DIR}")
@@ -10,6 +11,10 @@ aux_source_directory(${TENSOR_TEST_DIR} TENSOR_TEST_FILES)
 option(TEST_FRAMWORK "test framwork" ON)
 option(TEST_CORE_HELPER "test core_helper" ON)
 option(TEST_CORE "test core" ON)
+
+if(TEST_CORE)
+    option(TEST_BASE_TYPE "test base type in core" ON)
+endif()
 
 # #---------- add subdirectory ----------##
 add_subdirectory(${TENSOR_TEST_DIR})
@@ -27,10 +32,11 @@ target_include_directories(${TEST_NAME}
 )
 target_include_directories(${TEST_NAME} PUBLIC ${glog_INCLUDE_DIR})
 target_include_directories(${TEST_NAME} PUBLIC ${GTest_INCLUDE_DIR})
+
 # #---------- link lib ----------##
 set(TEST_LINK_LIB glog GTest)
 
-target_link_libraries(${TEST_NAME} PUBLIC FRAMWORK  ${TEST_LINK_LIB} )
+target_link_libraries(${TEST_NAME} PUBLIC FRAMEWORK ${TEST_LINK_LIB})
 
 # define a function to simplify adding tests
 function(do_test module target result)
@@ -39,8 +45,3 @@ function(do_test module target result)
         PROPERTIES PASS_REGULAR_EXPRESSION ${result}
     )
 endfunction()
-
-add_test(NAME TEST_ALL COMMAND ${TEST_NAME})
-set_tests_properties(TEST_ALL
-    PROPERTIES PASS_REGULAR_EXPRESSION "Successful test!"
-)

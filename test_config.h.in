@@ -1,6 +1,8 @@
 #cmakedefine TEST_PROJECT
 #cmakedefine TEST_FRAMWORK
 #cmakedefine TEST_CORE_HELPER
+
 #cmakedefine TEST_CORE
+#cmakedefine TEST_BASE_TYPE
 
 #cmakedefine TEST_TENSOR

@@ -4,3 +4,4 @@ install/*
 release/*
 main.cpp
 main.exe
+temp.txt

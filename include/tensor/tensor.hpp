@@ -2,7 +2,7 @@
 #define __FRAMWORK_TENSOR_HPP__
 #include "../core.hpp"
 
-FRAMWORK_NAMESPACE
+FRAMEWORK_NAMESPACE
 {
     template <typename Base>
     class Tensor
@@ -11,7 +11,6 @@ FRAMWORK_NAMESPACE
     protected:
     private:
         using data_type = Base;
-
     public:
     protected:
     private:

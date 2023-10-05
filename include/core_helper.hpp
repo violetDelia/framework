@@ -4,13 +4,13 @@
 //---------- namespace define ----------//
 
 // Framwork
-#define FRAMWORK_NAMESPACE_NAME Framwork
-#define FRAMWORK_NAMESPACE \
-    namespace FRAMWORK_NAMESPACE_NAME
+#define FRAMEWORK_NAMESPACE_NAME Framework
+#define FRAMEWORK_NAMESPACE \
+    namespace FRAMEWORK_NAMESPACE_NAME
 
-#define Framwork_ FRAMWORK_NAMESPACE_NAME::
+#define Framework_ FRAMEWORK_NAMESPACE_NAME::
 
-FRAMWORK_NAMESPACE
+FRAMEWORK_NAMESPACE
 {
 
 } // namespace framwork

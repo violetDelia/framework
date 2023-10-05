@@ -15,11 +15,10 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 # #---------- standard library settings ----------##
 add_library(std_lib INTERFACE)
-target_compile_features(std_lib INTERFACE cxx_std_23)
-target_compile_features(std_lib INTERFACE c_std_17)
+target_compile_features(std_lib INTERFACE cxx_std_20)
+target_compile_features(std_lib INTERFACE c_std_11)
 
 # #---------- set complier options ----------##
-
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -O0")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0")
 
