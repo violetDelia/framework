@@ -6,6 +6,7 @@
 int main()
 
 {
+    Eigen::Tensor
     ASSERT_EQ(sizeof(Framework::float64_t), 8);
     ASSERT_EQ(std::numeric_limits<Framework::float64_t>::max(), 18446744073709551615);
     ASSERT_EQ(std::numeric_limits<Framework::float64_t>::min(), 0);

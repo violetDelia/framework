@@ -4,5 +4,6 @@
 
 #cmakedefine TEST_CORE
 #cmakedefine TEST_BASE_TYPE
+#cmakedefine TEST_SHAPE
 
 #cmakedefine TEST_TENSOR

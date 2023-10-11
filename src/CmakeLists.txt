@@ -1,10 +1,18 @@
 # #---------- set aux variable ----------##
+# tensor
 set(TENSOR_RELATIVE_DIR "tensor")
 cmake_path(APPEND TENSOR_INCLUDE_DIR "${FRAMEWORK_INCLUDE_DIR}" "${TENSOR_RELATIVE_DIR}")
 cmake_path(APPEND TENSOR_SOURCE_DIR "${FRAMEWORK_SOURCE_DIR}" "${TENSOR_RELATIVE_DIR}")
 aux_source_directory(${TENSOR_SOURCE_DIR} TENSOR_SOURCE_FILES)
 
+# core
+set(CORE_RELATIVE_DIR "core")
+cmake_path(APPEND CORE_INCLUDE_DIR "${FRAMEWORK_INCLUDE_DIR}" "${CORE_RELATIVE_DIR}")
+cmake_path(APPEND CORE_SOURCE_DIR "${FRAMEWORK_SOURCE_DIR}" "${CORE_RELATIVE_DIR}")
+aux_source_directory(${CORE_SOURCE_DIR} CORE_SOURCE_FILES)
+
 # #---------- add subdirectory ----------##
+add_subdirectory(${CORE_SOURCE_DIR})
 add_subdirectory(${TENSOR_SOURCE_DIR})
 
 # #---------- add source to lib ----------##
@@ -19,7 +27,7 @@ target_include_directories(FRAMEWORK
 )
 
 # #---------- link lib ----------##
-target_link_libraries(FRAMEWORK PUBLIC TENSOR)
+target_link_libraries(FRAMEWORK PUBLIC TENSOR CORE)
 
 # #---------- setting version ----------##
 set_property(TARGET FRAMEWORK PROPERTY VERSION "1.0.0")
@@ -27,5 +35,6 @@ set_property(TARGET FRAMEWORK PROPERTY SOVERSION "1")
 
 # #---------- install ----------##
 install(TARGETS FRAMEWORK
-    #EXPORT FRAMEWORKTargets
+
+    # EXPORT FRAMEWORKTargets
     DESTINATION lib)

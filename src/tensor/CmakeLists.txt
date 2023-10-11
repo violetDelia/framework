@@ -1,7 +1,6 @@
 # #---------- add source to lib ----------##
 add_library(TENSOR ${TENSOR_SOURCE_FILES})
 set_target_properties(TENSOR PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
-
 # #---------- set include dir ----------##
 target_include_directories(TENSOR
     PUBLIC
@@ -10,7 +9,7 @@ target_include_directories(TENSOR
 )
 
 # #---------- link lib ----------##
-target_link_libraries(TENSOR PUBLIC std_lib)
+target_link_libraries(TENSOR PUBLIC std_lib CORE)
 
 # #---------- setting version ----------##
 set_property(TARGET TENSOR PROPERTY VERSION "1.0.0")

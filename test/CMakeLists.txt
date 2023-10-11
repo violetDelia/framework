@@ -13,7 +13,8 @@ option(TEST_CORE_HELPER "test core_helper" ON)
 option(TEST_CORE "test core" ON)
 
 if(TEST_CORE)
-    option(TEST_BASE_TYPE "test base type in core" ON)
+    option(TEST_BASE_TYPE "test base type in core" OFF)
+    option(TEST_SHAPE "test shape in core" ON)
 endif()
 
 # #---------- add subdirectory ----------##

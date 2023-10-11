@@ -12,15 +12,20 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-//    2023-10-11
+//    2023-10-11 
 //    If you have any questions about the code or if you think there is a better way to implement it,
 //    please contact me by email 1733535832@qq.com.
 
-#ifndef FRAMWORK_ALL_HPP
-#define FRAMWORK_ALL_HPP
+#ifndef __FRAMWORK_CORE_HPP__
+#define __FRAMWORK_CORE_HPP__
 
-#include "core/core.hpp"
+#include "shape.hpp"
+FRAMEWORK_NAMESPACE
+{
 
-#include "tensor/tensor.hpp"
+    // define templates
 
-#endif // FRAMWORK_ALL_HPP
+    // define concepts
+
+} // namespace FRAMEWORK_NAMESPACE
+#endif // __FRAMWORK_CORE_HPP__

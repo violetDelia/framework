@@ -57,6 +57,16 @@ set(GTest_INCLUDE_DIR "F:\\Cplus\\MSYS2\\ucrt64\\include")
 # #---------- add subdirectory ----------##
 add_subdirectory(${FRAMEWORK_SOURCE_DIR})
 
+# executable of main
+add_executable(main "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
+target_include_directories(main
+    PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(main PUBLIC FRAMEWORK)
+
 # #---------- generate configure header file ----------##
 configure_file(config.h.in config.h)
 
