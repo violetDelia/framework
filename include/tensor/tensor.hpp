@@ -1,3 +1,4 @@
+
 //    Copyright 2023 时光丶人爱
 
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-//    2023-10-11 
+//    2023-10-11
 //    If you have any questions about the code or if you think there is a better way to implement it,
 //    please contact me by email 1733535832@qq.com.
 
@@ -23,6 +24,11 @@
 #include <initializer_list>
 FRAMEWORK_NAMESPACE
 {
+    /**
+     * @brief 包装Base进行计算的tensor,可以支持多种矩阵.
+     * 
+     * @tparam Base 被包装的矩阵, 比如Eigen::tensor
+     */
     template <typename Base>
     class Tensor
     {
@@ -33,6 +39,7 @@ FRAMEWORK_NAMESPACE
         using base_const_pointer = base_operator::base_const_pointer;
         using base_reference = base_operator::base_reference;
         using base_const_reference = base_operator::base_const_reference;
+
     public:
         using value_type = base_operator::value_type;
         using value_pointer = base_operator::value_pointer;
@@ -49,16 +56,15 @@ FRAMEWORK_NAMESPACE
     protected:
         using vector_type = std::vector<value_type>;
         using vector_const_type = const std::vector<value_type>;
+        
 
     private:
     public:
-        // constexpr Tensor(size_type dim = 3);
-        // constexpr Tensor(shape_const_reference shape);
-        // constexpr Tensor(shape_const_reference &shape);
-        constexpr Tensor(vector_const_type  &values);
-        constexpr Tensor(vector_const_type  &&values);
-        constexpr Tensor(std::initializer_list<size_type> init_list);
         
+        constexpr Tensor() = default;
+        constexpr Tensor(vector_const_type &values);
+        constexpr Tensor(vector_const_type &&values);
+        constexpr Tensor(std::initializer_list<size_type> init_list);
 
     protected:
     private:

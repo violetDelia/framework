@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-//    2023-10-11 
+//    2023-10-11
 //    If you have any questions about the code or if you think there is a better way to implement it,
 //    please contact me by email 1733535832@qq.com.
 
@@ -55,23 +55,21 @@ FRAMEWORK_NAMESPACE
     template <typename Ty, size_t num>
     using array = std::array<Ty, num>;
 
-    // base conceptions
-    template <typename Ty>
-    concept is_integer = std::is_integral<Ty>::value;
-
-    // is_instance_implement
+    //--------- implement of is_instance ----------//
     template <typename, template <typename...> typename>
     struct _is_instance_implement : public std::false_type
     {
     };
+
     template <template <typename...> typename _Base_Ty, typename... _args>
     struct _is_instance_implement<_Base_Ty<_args...>, _Base_Ty> : public std::true_type
     {
     };
+
     template <typename Ty, template <typename...> typename Base_Ty>
     using is_instance = _is_instance_implement<std::remove_cvref_t<Ty>, Base_Ty>;
 
-    // is_iterator_implement
+    //--------- implement of has_iterator_category ----------//
     template <typename Iterator>
     using iterator_tag = typename std::iterator_traits<Iterator>::iterator_category;
 
@@ -85,6 +83,10 @@ FRAMEWORK_NAMESPACE
     struct has_iterator_category : public std::bool_constant<_has_iterator_category_implement<Ty>>
     {
     };
+
+    //--------- define concepts ----------//
+    template <typename Ty>
+    concept is_Integer = std::is_integral<Ty>::value;
 
     template <typename Ty>
     concept is_Iterator = has_iterator_category<Ty>::value;

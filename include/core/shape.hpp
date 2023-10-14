@@ -12,19 +12,26 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-//    2023-10-11
-//    If you have any questions about the code or if you think there is a better way to implement it,
-//    please contact me by email 1733535832@qq.com.
+/**
+ * @file shape.h
+ * @brief define class Shape
+ *
+ *
+ *
+ * @author 时光丶人爱
+ * @date 2023-10-11
+ * @see If you have any questions about the code or if you think there is a better way to implement
+ * it,please contact me by email 1733535832@qq.com.
+ */
 
 #ifndef __FRAMWORK_SHAPE_HPP__
 #define __FRAMWORK_SHAPE_HPP__
 #include "core_helper.hpp"
 FRAMEWORK_NAMESPACE
 {
-
-    //--------- define shape ----------//
+    //---------- define Shape ----------//
     template <is_integer Ty>
-    class Shape : public vector<Ty>
+    Shape : public vector<Ty>
     {
     private:
         using father = vector<Ty>;
@@ -42,9 +49,9 @@ FRAMEWORK_NAMESPACE
         template <is_Input_Iterator Iterator>
         constexpr Shape(Iterator first, Iterator last) : father(first, last){};
         constexpr Shape(const Shape &other) noexcept : father(other){};
-        constexpr Shape(Shape &&other) noexcept : father(std::move(other)){};
+        constexpr Shape(Shape && other) noexcept : father(std::move(other)){};
         constexpr Shape(const father &other) noexcept : father(other){};
-        constexpr Shape(father &&other) noexcept : father(std::move(other)){};
+        constexpr Shape(father && other) noexcept : father(std::move(other)){};
         constexpr Shape(std::initializer_list<Ty> init_list) : father(init_list){};
 
         // assignment
