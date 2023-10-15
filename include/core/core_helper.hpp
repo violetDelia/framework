@@ -52,8 +52,11 @@ FRAMEWORK_NAMESPACE
     //--------- define container ----------//
     template <typename Ty>
     using vector = std::vector<Ty>;
+
     template <typename Ty, size_t num>
     using array = std::array<Ty, num>;
+
+
 
     //--------- implement of is_instance ----------//
     template <typename, template <typename...> typename>

@@ -32,7 +32,11 @@ int main()
     // std::cout << std::is_same<int, Framework::Tensor<Eigen::Tensor<float, 3>>::value_type>::value <<std::endl;
 
     std::vector<std::size_t> vector2(1);
+    vector2.push_back(2);
+    vector2.push_back(2);
     FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape8(vector2);
-    std::cout<<shape8<<std::endl;
+    vector2.push_back(2);
+    shape8.reshape(vector2.begin(), vector2.end());
+    std::cout << shape8 << std::endl;
     return 0;
 };
