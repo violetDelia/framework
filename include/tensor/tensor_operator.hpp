@@ -18,8 +18,9 @@
 
 #ifndef __FRAMWORK_TENSOR_OPERATOR_HPP__
 #define __FRAMWORK_TENSOR_OPERATOR_HPP_
-#include "core/shape.hpp"
-#include "tensor/tensor_helper.hpp"
+#include "../config.h"
+#include "../core/shape.hpp"
+#include "../tensor/tensor_helper.hpp"
 FRAMEWORK_NAMESPACE
 {
     /**

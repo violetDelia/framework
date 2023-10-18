@@ -18,8 +18,8 @@
 
 #ifndef __FRAMWORK_TENSOR_HELPER_HPP__
 #define __FRAMWORK_TENSOR_HELPER_HPP__
-#include "core/core.hpp"
-
+#include "../core/core.hpp"
+#include "../config.h"
 #ifdef __FRAMWORK__USE__EIGEN__
 #include <eigen3/unsupported/Eigen/CXX11/Tensor>
 #endif //__FRAMWORK__USE__EIGEN__

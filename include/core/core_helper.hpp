@@ -35,12 +35,17 @@
 #include <iostream>
 //---------- namespace define ----------//
 
-// Framwork
+// Framwork namespace axu
 #define FRAMEWORK_NAMESPACE_NAME Framework
 #define FRAMEWORK_NAMESPACE \
     namespace FRAMEWORK_NAMESPACE_NAME
 
 #define Framework_ FRAMEWORK_NAMESPACE_NAME::
+
+// un_implemented
+#define __UN_IMPLEMENTED__ std::cout << "not implemented" << std::endl   \
+                                     << __PRETTY_FUNCTION__ << std::endl \
+                                     << std::endl;
 
 FRAMEWORK_NAMESPACE
 {

@@ -28,7 +28,7 @@
 #define __FRAMWORK_SHAPE_HPP__
 #include "core_helper.hpp"
 FRAMEWORK_NAMESPACE
-{   
+{
 
     //---------- Shape define ----------//
     /**
@@ -45,6 +45,8 @@ FRAMEWORK_NAMESPACE
     public:
         using value_type = father::value_type;
         using size_type = father::size_type;
+        using iterator = father::iterator;
+        using const_iterator = father::const_iterator;
 
     protected:
     public:
@@ -106,7 +108,9 @@ FRAMEWORK_NAMESPACE
         explicit constexpr Shape(std::initializer_list<Ty> init_list);
 
         // assignment
-        using father::operator=;
+        constexpr void operator=(const Shape &other);
+        constexpr void operator=(const Shape &&other);
+        constexpr void operator=(std::initializer_list<Ty> init_list);
 
         // method about iterator
         using father::begin;
@@ -184,12 +188,9 @@ FRAMEWORK_NAMESPACE
         using father::swap;
 
     public:
-        // friend istream &operator>>(istream &in, Shape &shape);
-
     protected:
     private:
     };
-
 
     //---------- Shape implement ----------//
     template <is_Integer Ty>
@@ -215,28 +216,52 @@ FRAMEWORK_NAMESPACE
     constexpr Shape<Ty>::Shape(father && other) noexcept : father(std::move(other)){};
 
     template <is_Integer Ty>
+    constexpr void Shape<Ty>::operator=(const Shape &other)
+    {
+        if (this != std::addressof(other))
+        {
+            this->assign(other.begin(), other.end());
+        }
+        return;
+    };
+
+    template <is_Integer Ty>
     constexpr void Shape<Ty>::reshape(std::initializer_list<Ty> init_list)
     {
-        this->assign(init_list.begin(), init_list.end());
+        assign(init_list.begin(), init_list.end());
     };
 
     template <is_Integer Ty>
     constexpr void Shape<Ty>::reshape(const Shape &other)
     {
-        this->assign(other.begin(), other.end());
+        assign(other.begin(), other.end());
     };
 
     template <is_Integer Ty>
     constexpr void Shape<Ty>::reshape(const father &other)
     {
-        this->assign(other.begin(), other.end());
+        assign(other.begin(), other.end());
     };
 
     template <is_Integer Ty>
     template <is_Input_Iterator Iterator>
-    constexpr void Shape<Ty>::reshape(Iterator first, Iterator last)
+    constexpr void Shape<Ty>::reshape(Iterator first, Iterator last){
+        assign(first, last);
+    };
+
+    // overload iostream
+    template <is_Integer Ty>
+    std::ostream &operator<<(std::ostream &out, Shape<Ty> &shape)
     {
-        this->assign(first, last);
+        out.put('[');
+        char common[2] = {'\0', ' '};
+        for (auto it = shape.begin(); it != shape.end(); ++it)
+        {
+            out << common[0] << common[1] << *(it);
+            common[0] = ',';
+        }
+        out.put(']');
+        return out;
     };
 
 } // namespace FRAMEWORK_NAMESPACE

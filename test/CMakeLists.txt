@@ -10,10 +10,14 @@ aux_source_directory(${TENSOR_TEST_DIR} TENSOR_TEST_FILES)
 set(CORE_RELATIVE_DIR "core")
 cmake_path(APPEND CORE_TEST_DIR "${TEST_DIR}" "${CORE_RELATIVE_DIR}")
 aux_source_directory(${CORE_TEST_DIR} CORE_TEST_FILES)
+message(${CORE_TEST_FILES})
 
 # #---------- set test option ----------##
-option(TEST_FRAMWORK "test framwork" ON)
+if(DEFINED TEST_FRAMWORK)
+    unset(TEST_FRAMWORK CACHE)
+endif()
 
+option(TEST_FRAMWORK "test framwork" ON)
 
 # #---------- add subdirectory ----------##
 add_subdirectory(${TENSOR_TEST_DIR})
@@ -21,7 +25,6 @@ add_subdirectory(${CORE_TEST_DIR})
 
 # executable of test
 set(TEST_ALL ${FRAMEWORK_TESE_FILES} ${TENSOR_TEST_FILES} ${CORE_TEST_FILES})
-message(STATUS "TEST_ALL: ${TEST_ALL}")
 add_executable(${TEST_NAME} ${TEST_ALL})
 set_target_properties(${TEST_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 

@@ -19,12 +19,14 @@
 
 #ifndef __FRAMWORK_TENSOR_HPP__
 #define __FRAMWORK_TENSOR_HPP__
-#include "core/shape.hpp"
+#include "../core/core_helper.hpp"
+#include "../core/shape.hpp"
 #include "tensor_operator.hpp"
 #include "tensor_helper.hpp"
 #include <initializer_list>
 FRAMEWORK_NAMESPACE
 {
+    //---------- Tensor define ----------//
     /**
      * @brief 基于Base进行计算的tensor,可以支持多种矩阵.
      *
@@ -62,78 +64,61 @@ FRAMEWORK_NAMESPACE
 
     private:
     public:
-        constexpr Tensor() : _operator(), _base()
-        {
-            std::cout << "Tensor_construct" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
+        constexpr Tensor();
 
-        explicit constexpr Tensor(std::initializer_list<size_type> &init_list)
-        {
-            std::cout << "not_impletment" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
+        explicit constexpr Tensor(std::initializer_list<size_type> init_list);
 
-        explicit constexpr Tensor(shape_reference shape)
-        {
-            std::cout << "not_impletment" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
+        explicit constexpr Tensor(shape_reference shape);
 
-        explicit constexpr Tensor(shape_reference shape, std::initializer_list<size_type> &init_list)
-        {
-            std::cout << "not_impletment" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
+        explicit constexpr Tensor(shape_reference shape, std::initializer_list<size_type> init_list);
 
         template <is_Input_Iterator Iterator>
-        explicit constexpr Tensor(Iterator first, Iterator last)
-        {
-            std::cout << "not_impletment" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
+        explicit constexpr Tensor(Iterator first, Iterator last);
 
-        constexpr size_type dim(size_type dimension) const
-        {
-            std::cout << "not_impletment" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-            return size_type();
-        };
+        constexpr size_type dim(size_type dimension) const;
 
-        constexpr size_type dim() const
-        {
-            std::cout << "not_impletment" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-            return size_type();
-        }
+        constexpr size_type dim() const;
 
-        constexpr Shape<size_type> shape() const
-        {
-            std::cout << "not_impletment" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-            return Shape<size_type>();
-        }
+        constexpr shape_type shape() const;
 
-
-        protected:
+    protected:
     private:
     public:
         // shape_type shape;
 
-        // protected:
+    protected:
         base_operator _operator;
         base_type _base;
 
     private:
     };
+
+    //---------- Tensor impletment ----------//
+    template <typename Base>
+    constexpr Tensor<Base>::Tensor(){__UN_IMPLEMENTED__};
+
+    template <typename Base>
+    constexpr Tensor<Base>::Tensor(std::initializer_list<size_type> init_list){__UN_IMPLEMENTED__};
+
+    template <typename Base>
+    constexpr Tensor<Base>::Tensor(shape_reference shape){__UN_IMPLEMENTED__};
+
+    template <typename Base>
+    constexpr Tensor<Base>::Tensor(shape_reference shape, std::initializer_list<size_type> init_list){__UN_IMPLEMENTED__};
+
+    template <typename Base>
+    template <is_Input_Iterator Iterator>
+    constexpr Tensor<Base>::Tensor(Iterator first, Iterator last){__UN_IMPLEMENTED__};
+
+    template <typename Base>
+    constexpr Tensor<Base>::size_type Tensor<Base>::dim(size_type dimension) const{__UN_IMPLEMENTED__ return 0;};
+
+    template <typename Base>
+    constexpr Tensor<Base>::size_type Tensor<Base>::dim() const{__UN_IMPLEMENTED__ return 0;};
+
+    template <typename Base>
+    constexpr Tensor<Base>::shape_type Tensor<Base>::shape() const{__UN_IMPLEMENTED__ return {};};
+
 } // namespace FRAMEWORK_NAMESPACE
 
 #endif // __FRAMWORK_TENSOR_HPP__
