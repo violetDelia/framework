@@ -13,7 +13,7 @@
 //    limitations under the License.
 
 /**
- * @file shape.h
+ * @file shape.hpp
  * @brief define class Shape
  *
  *
@@ -28,7 +28,9 @@
 #define __FRAMWORK_SHAPE_HPP__
 #include "core_helper.hpp"
 FRAMEWORK_NAMESPACE
-{
+{   
+
+    //---------- Shape define ----------//
     /**
      * @brief 表示形状的容器,继承自std::vector,只能通过reshape改变容器里的元素
      *
@@ -50,7 +52,7 @@ FRAMEWORK_NAMESPACE
          * @brief 构造一个空的Shape
          *
          */
-        constexpr Shape() noexcept : father(){};
+        constexpr Shape() noexcept;
 
         /**
          * @brief 根据迭代器生成相应的Shape
@@ -61,7 +63,7 @@ FRAMEWORK_NAMESPACE
          * @param last 指向最后一个元素的迭代器
          */
         template <is_Input_Iterator Iterator>
-        constexpr Shape(Iterator first, Iterator last) : father(first, last){};
+        explicit constexpr Shape(Iterator first, Iterator last);
 
         /**
          * @brief 构造一个跟other具有相同元素的Shape
@@ -69,7 +71,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param other 其他的Shape
          */
-        constexpr Shape(const Shape &other) noexcept : father(other){};
+        explicit constexpr Shape(const Shape<Ty> &other) noexcept;
 
         /**
          * @brief 构造一个跟other具有相同元素的Shape
@@ -77,7 +79,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param other 其他的Shape
          */
-        constexpr Shape(Shape &&other) noexcept : father(std::move(other)){};
+        explicit constexpr Shape(Shape &&other) noexcept;
 
         /**
          * @brief 构造一个跟other具有相同元素的Shape
@@ -85,7 +87,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param other shape的父类容器
          */
-        constexpr Shape(const father &other) noexcept : father(other){};
+        explicit constexpr Shape(const father &other) noexcept;
 
         /**
          * @brief 构造一个跟other具有相同元素的Shape
@@ -93,7 +95,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param other shape的父类容器
          */
-        constexpr Shape(father &&other) noexcept : father(std::move(other)){};
+        explicit constexpr Shape(father &&other) noexcept;
 
         /**
          * @brief 根据初始化列表构造Shape
@@ -101,7 +103,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param init_list 初始化列表
          */
-        constexpr Shape(std::initializer_list<Ty> init_list) : father(init_list){};
+        explicit constexpr Shape(std::initializer_list<Ty> init_list);
 
         // assignment
         using father::operator=;
@@ -122,10 +124,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param init_list 初始化列表
          */
-        constexpr void reshape(std::initializer_list<Ty> init_list)
-        {
-            this->assign(init_list);
-        };
+        constexpr void reshape(std::initializer_list<Ty> init_list);
 
         /**
          * @brief 将other中的元素赋值给Shape
@@ -133,10 +132,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param other 其他的Shape实例
          */
-        constexpr void reshape(const Shape &other)
-        {
-            this->assign(other.begin(), other.end());
-        };
+        constexpr void reshape(const Shape &other);
 
         /**
          * @brief 将other中的元素赋值给Shape
@@ -144,10 +140,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param other Shape父类的实例
          */
-        constexpr void reshape(const father &other)
-        {
-            this->assign(other.begin(), other.end());
-        };
+        constexpr void reshape(const father &other);
 
         /**
          * @brief 将首位迭代器中的元素赋值给Shape
@@ -158,10 +151,7 @@ FRAMEWORK_NAMESPACE
          * @param last 指向最后一个元素的迭代器
          */
         template <is_Input_Iterator Iterator>
-        constexpr void reshape(Iterator first, Iterator last)
-        {
-            this->assign(first, last);
-        };
+        constexpr void reshape(Iterator first, Iterator last);
 
     protected:
         // data
@@ -194,9 +184,61 @@ FRAMEWORK_NAMESPACE
         using father::swap;
 
     public:
+        // friend istream &operator>>(istream &in, Shape &shape);
+
     protected:
     private:
     };
+
+
+    //---------- Shape implement ----------//
+    template <is_Integer Ty>
+    constexpr Shape<Ty>::Shape() noexcept : father(){};
+
+    template <is_Integer Ty>
+    template <is_Input_Iterator Iterator>
+    constexpr Shape<Ty>::Shape(Iterator first, Iterator last) : father(first, last){};
+
+    template <is_Integer Ty>
+    constexpr Shape<Ty>::Shape(const Shape<Ty> &other) noexcept : father(other){};
+
+    template <is_Integer Ty>
+    constexpr Shape<Ty>::Shape(Shape && other) noexcept : father(std::move(other)){};
+
+    template <is_Integer Ty>
+    constexpr Shape<Ty>::Shape(const father &other) noexcept : father(other){};
+
+    template <is_Integer Ty>
+    constexpr Shape<Ty>::Shape(std::initializer_list<Ty> init_list) : father(std::move(init_list)){};
+
+    template <is_Integer Ty>
+    constexpr Shape<Ty>::Shape(father && other) noexcept : father(std::move(other)){};
+
+    template <is_Integer Ty>
+    constexpr void Shape<Ty>::reshape(std::initializer_list<Ty> init_list)
+    {
+        this->assign(init_list.begin(), init_list.end());
+    };
+
+    template <is_Integer Ty>
+    constexpr void Shape<Ty>::reshape(const Shape &other)
+    {
+        this->assign(other.begin(), other.end());
+    };
+
+    template <is_Integer Ty>
+    constexpr void Shape<Ty>::reshape(const father &other)
+    {
+        this->assign(other.begin(), other.end());
+    };
+
+    template <is_Integer Ty>
+    template <is_Input_Iterator Iterator>
+    constexpr void Shape<Ty>::reshape(Iterator first, Iterator last)
+    {
+        this->assign(first, last);
+    };
+
 } // namespace FRAMEWORK_NAMESPACE
 
 #endif //__FRAMWORK_SHAPE_HPP__

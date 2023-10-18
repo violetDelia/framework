@@ -16,8 +16,11 @@
 //    If you have any questions about the code or if you think there is a better way to implement it,
 //    please contact me by email 1733535832@qq.com.
 
+#define __FRAMWORK__USE__EIGEN__
+
 #ifndef FRAMWORK_ALL_HPP
 #define FRAMWORK_ALL_HPP
+
 
 #include "core/core.hpp"
 

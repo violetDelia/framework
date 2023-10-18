@@ -12,9 +12,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-//    2023-10-11 
-//    If you have any questions about the code or if you think there is a better way to implement it,
-//    please contact me by email 1733535832@qq.com.
+/**
+ * @file core.hpp
+ * @brief 
+ *
+ *
+ *
+ * @author 时光丶人爱
+ * @date 2023-10-11
+ * @see If you have any questions about the code or if you think there is a better way to implement
+ * it,please contact me by email 1733535832@qq.com.
+ */
 
 #ifndef __FRAMWORK_CORE_HPP__
 #define __FRAMWORK_CORE_HPP__
@@ -23,9 +31,7 @@
 FRAMEWORK_NAMESPACE
 {
 
-    // define templates
-
-    // define concepts
+    
 
 } // namespace FRAMEWORK_NAMESPACE
 #endif // __FRAMWORK_CORE_HPP__

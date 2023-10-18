@@ -1,3 +1,4 @@
+
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -7,36 +8,49 @@
 #include <eigen3/unsupported/Eigen/CXX11/Tensor>
 #include <stdnoreturn.h>
 #include <iterator>
-
-template <typename T>
-std::ostream &operator<<(std::ostream &s, const std::vector<T> &v)
+#include <vector>
+#include <map>
+template <typename Ty>
+struct _Is_Eigen_Tensor_Implement : public std::false_type
 {
-    s.put('[');
-    char comma[3] = {'\0', ' ', '\0'};
-    for (const auto &e : v)
-    {
-        s << comma << e;
-        comma[0] = ',';
-    }
-    return s << ']';
-}
+};
+
+template <template <typename, int, int, typename> typename Ty, typename Scalar_, int NumIndices_, int Options_, typename IndexType_>
+struct _Is_Eigen_Tensor_Implement<Ty<Scalar_, NumIndices_, Options_, IndexType_>> : public std::is_same<Ty<Scalar_, NumIndices_, Options_, IndexType_>, Eigen::Tensor<Scalar_, NumIndices_, Options_, IndexType_>>
+{
+};
+
+template <typename Ty>
+concept is_Eigen_Tensor = _Is_Eigen_Tensor_Implement<Ty>::value;
+// //--------- implement of is_Eigen_Tensor ----------//
+template <typename Base, typename = void>
+class A
+{
+public:
+    A() { std::cout << "base" << std::endl; }
+};
+template <Framework::is_Eigen_Tensor Base>
+class A<Base, void>
+{
+public:
+    A() { std::cout << "tensor" << std::endl; }
+};
 int main()
 {
 
-    Eigen::Tensor<float, 3> e_tensor;
-    Framework::Tensor_Operator<int> op_f_3;
-    Framework::Tensor_Operator<int> op_f_3_other;
-    Framework::Tensor_Operator<float> op_f_2;
-    // std::cout << (op_f_3_other == op_f_2) << std::endl;
-    // std::cout << Framework::is_instance<Framework::Tensor_Operator<Eigen::Tensor<float, 3>>, Framework::Tensor_Operator>::value << std::endl;
-    // std::cout << std::is_same<int, Framework::Tensor<Eigen::Tensor<float, 3>>::value_type>::value <<std::endl;
+    Framework::Tensor<Eigen::Tensor<float, 3>> tensor;
+    std::cout<<typeid(tensor._base).name()<<std::endl;
+    std::cout<<sizeof(tensor._base)<<std::endl;
+    std::cout<<tensor._base.dimensions()[1]<<std::endl;
+    std::cout<<tensor._base.NumDimensions<<std::endl;
+    //std::cout<<tensor.shape()<<std::endl;
+    // std::cout<<Eigen::Tensor<float, 3>::Scalar_<<std::endl;
+    //  std::cout << "adress of _operator" << std::addressof(tensor._operator) << std::endl;
+    //  std::cout << typeid(tensor._operator).name() << std::endl;
+    // Framework::Tensor_Operator<Eigen::Tensor<float, 3>> op;
+    // std::cout << is_template_of<std::vector, std::vector<float>>::value << std::endl;
+    // std::cout<<is_template_of <Eigen::Tensor,Eigen::Tensor<float, 3>>::value<<std::endl;
+    //  Framework::Tensor_Operator<int> op1();
 
-    std::vector<std::size_t> vector2(1);
-    vector2.push_back(2);
-    vector2.push_back(2);
-    FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape8(vector2);
-    vector2.push_back(2);
-    shape8.reshape(vector2.begin(), vector2.end());
-    std::cout << shape8 << std::endl;
     return 0;
 };

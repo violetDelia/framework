@@ -54,6 +54,12 @@ include_directories(${FRAMEWORK_INCLUDE_DIR})
 set(glog_INCLUDE_DIR "F:\\Cplus\\MSYS2\\ucrt64\\include")
 set(GTest_INCLUDE_DIR "F:\\Cplus\\MSYS2\\ucrt64\\include")
 
+option(__FRAMWORK__USE__EIGEN__ "use Eigen" ON)
+
+if(__FRAMWORK__USE__EIGEN__)
+    set(Eigen_INCLUDE_DIR "F:\\Cplus\\MSYS2\\ucrt64\\include")
+endif()
+
 # #---------- add subdirectory ----------##
 add_subdirectory(${FRAMEWORK_SOURCE_DIR})
 

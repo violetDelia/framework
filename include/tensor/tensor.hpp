@@ -21,12 +21,13 @@
 #define __FRAMWORK_TENSOR_HPP__
 #include "core/shape.hpp"
 #include "tensor_operator.hpp"
+#include "tensor_helper.hpp"
 #include <initializer_list>
 FRAMEWORK_NAMESPACE
 {
     /**
-     * @brief 包装Base进行计算的tensor,可以支持多种矩阵.
-     * 
+     * @brief 基于Base进行计算的tensor,可以支持多种矩阵.
+     *
      * @tparam Base 被包装的矩阵, 比如Eigen::tensor
      */
     template <typename Base>
@@ -56,24 +57,80 @@ FRAMEWORK_NAMESPACE
     protected:
         using vector_type = std::vector<value_type>;
         using vector_const_type = const std::vector<value_type>;
-        
+        using shape_type = Shape<value_type>;
+        using shape_reference = shape_type &;
 
     private:
     public:
-        
-        constexpr Tensor() = default;
-        constexpr Tensor(vector_const_type &values);
-        constexpr Tensor(vector_const_type &&values);
-        constexpr Tensor(std::initializer_list<size_type> init_list);
+        constexpr Tensor() : _operator(), _base()
+        {
+            std::cout << "Tensor_construct" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+        };
 
-    protected:
+        explicit constexpr Tensor(std::initializer_list<size_type> &init_list)
+        {
+            std::cout << "not_impletment" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+        };
+
+        explicit constexpr Tensor(shape_reference shape)
+        {
+            std::cout << "not_impletment" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+        };
+
+        explicit constexpr Tensor(shape_reference shape, std::initializer_list<size_type> &init_list)
+        {
+            std::cout << "not_impletment" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+        };
+
+        template <is_Input_Iterator Iterator>
+        explicit constexpr Tensor(Iterator first, Iterator last)
+        {
+            std::cout << "not_impletment" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+        };
+
+        constexpr size_type dim(size_type dimension) const
+        {
+            std::cout << "not_impletment" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+            return size_type();
+        };
+
+        constexpr size_type dim() const
+        {
+            std::cout << "not_impletment" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+            return size_type();
+        }
+
+        constexpr Shape<size_type> shape() const
+        {
+            std::cout << "not_impletment" << std::endl;
+            std::cout << __PRETTY_FUNCTION__ << std::endl
+                      << std::endl;
+            return Shape<size_type>();
+        }
+
+
+        protected:
     private:
     public:
         // shape_type shape;
 
-    protected:
-        base_type _base;
+        // protected:
         base_operator _operator;
+        base_type _base;
 
     private:
     };
