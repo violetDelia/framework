@@ -63,7 +63,7 @@ endif()
 # #---------- add subdirectory ----------##
 add_subdirectory(${FRAMEWORK_SOURCE_DIR})
 
-#executable of main
+# executable of main
 add_executable(main "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 target_include_directories(main
     PUBLIC
@@ -87,6 +87,10 @@ install(FILES "${PROJECT_BINARY_DIR}/config.h"
 install(DIRECTORY "${FRAMEWORK_INCLUDE_DIR}" DESTINATION ./)
 
 # #---------- test ----------##
+if(DEFINED TEST_PROJECT)
+    unset(TEST_PROJECT CACHE)
+endif()
+
 option(TEST_PROJECT "test project" ON)
 
 if(${TEST_PROJECT})

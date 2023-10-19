@@ -43,8 +43,8 @@
 #define Framework_ FRAMEWORK_NAMESPACE_NAME::
 
 // un_implemented
-#define __UN_IMPLEMENTED__ std::cout << "not implemented" << std::endl   \
-                                     << __PRETTY_FUNCTION__ << std::endl \
+#define __UN_IMPLEMENTED__ std::cout << "not implemented :" << __FUNCTION__ << std::endl \
+                                     << __PRETTY_FUNCTION__ << std::endl                \
                                      << std::endl;
 
 FRAMEWORK_NAMESPACE

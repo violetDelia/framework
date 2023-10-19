@@ -50,6 +50,32 @@ TEST(Shape, construct__size__at)
     EXPECT_ANY_THROW(shape8.at(2));
     EXPECT_ANY_THROW(shape2.at(0));
     ASSERT_EQ(vector1.size(), 0);
+
+    FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape9 = {2, 2};
+    ASSERT_EQ(shape9.size(), 2);
+    ASSERT_EQ(shape9.at(0), 2);
+    ASSERT_EQ(shape9.at(1), 2);
+    EXPECT_ANY_THROW(shape9.at(2));
+    
+    FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape10 = shape6;
+    ASSERT_EQ(shape10.size(), 2);
+    ASSERT_EQ(shape10.at(0), 2);
+    ASSERT_EQ(shape10.at(1), 2);
+    EXPECT_ANY_THROW(shape10.at(2));
+
+    FRAMEWORK_NAMESPACE_NAME::Shape<unsigned short> shape11 = shape6;
+    ASSERT_EQ(shape11.size(), 2);
+    ASSERT_EQ(shape11.at(0), 2);
+    ASSERT_EQ(shape11.at(1), 2);
+    EXPECT_ANY_THROW(shape11.at(2));
+
+    FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape12 = shape11;
+    ASSERT_EQ(shape12.size(), 2);
+    ASSERT_EQ(shape12.at(0), 2);
+    ASSERT_EQ(shape12.at(1), 2);
+    EXPECT_ANY_THROW(shape12.at(2));
+
+    
 }
 TEST(Shape, begin__end__cbegin__cend)
 {
@@ -107,6 +133,33 @@ TEST(Shape, reshape)
     ASSERT_EQ(shape1.at(0), 1);
     ASSERT_EQ(shape1.at(1), 2);
     EXPECT_ANY_THROW(shape1.at(2));
-}
 
+    FRAMEWORK_NAMESPACE_NAME::Shape<short> shape3;
+    shape3.reshape(shape2);
+    ASSERT_EQ(shape3.size(), 3);
+    ASSERT_EQ(shape3.at(0), 1);
+    ASSERT_EQ(shape3.at(1), 2);
+    ASSERT_EQ(shape3.at(2), 3);
+    EXPECT_ANY_THROW(shape3.at(3));
+
+
+}
+TEST(Shape, operators)
+{
+    FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape1{1, 2, 3};
+    FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape2{1, 2, 3};
+    FRAMEWORK_NAMESPACE_NAME::Shape<std::size_t> shape3{1, 2};
+
+    ASSERT_EQ(shape1 == shape2, true);
+    ASSERT_EQ(shape1 != shape2, false);
+    ASSERT_EQ(shape1 == shape3, false);
+    ASSERT_EQ(shape1 != shape3, true);
+
+    FRAMEWORK_NAMESPACE_NAME::Shape<int> shape4{1, 2, 3};
+    FRAMEWORK_NAMESPACE_NAME::Shape<short> shape5{2, 3};
+    ASSERT_EQ(shape1 == shape4, true);
+    ASSERT_EQ(shape1 != shape4, false);
+    ASSERT_EQ(shape1 == shape5, false);
+    ASSERT_EQ(shape1 != shape5, true);
+}
 #endif // TEST_SHAPE

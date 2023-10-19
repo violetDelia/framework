@@ -73,7 +73,7 @@ FRAMEWORK_NAMESPACE
          *
          * @param other 其他的Shape
          */
-        explicit constexpr Shape(const Shape<Ty> &other) noexcept;
+        constexpr Shape(const Shape &other) noexcept;
 
         /**
          * @brief 构造一个跟other具有相同元素的Shape
@@ -100,17 +100,36 @@ FRAMEWORK_NAMESPACE
         explicit constexpr Shape(father &&other) noexcept;
 
         /**
+         * @brief 构造一个跟other具有相同元素值的Shape
+         *
+         * @tparam Other_Ty 其他类型
+         */
+        template <is_Integer Other_Ty>
+        constexpr Shape(Shape<Other_Ty> &other) noexcept;
+
+        /**
          * @brief 根据初始化列表构造Shape
          *
          *
          * @param init_list 初始化列表
          */
-        explicit constexpr Shape(std::initializer_list<Ty> init_list);
+        constexpr Shape(std::initializer_list<Ty> init_list);
 
         // assignment
-        constexpr void operator=(const Shape &other);
-        constexpr void operator=(const Shape &&other);
-        constexpr void operator=(std::initializer_list<Ty> init_list);
+        constexpr Shape &operator=(const Shape &other);
+        constexpr Shape &operator=(std::initializer_list<Ty> init_list);
+
+        template <is_Integer Other_Ty>
+        constexpr Shape &operator=(const Shape<Other_Ty> &other);
+
+        // == and !=
+        constexpr bool operator==(const Shape &other) const;
+        constexpr bool operator!=(const Shape &other) const;
+
+        template <is_Integer Other_Ty>
+        constexpr bool operator==(const Shape<Other_Ty> &other) const;
+        template <is_Integer Other_Ty>
+        constexpr bool operator!=(const Shape<Other_Ty> &other) const;
 
         // method about iterator
         using father::begin;
@@ -137,6 +156,16 @@ FRAMEWORK_NAMESPACE
          * @param other 其他的Shape实例
          */
         constexpr void reshape(const Shape &other);
+
+        /**
+         * @brief 将other中的元素值赋值给Shape
+         *
+         *
+         * @tparam Other_Ty 其他类型
+         * @param other 其他的Shape实例
+         */
+        template <is_Integer Other_Ty>
+        constexpr void reshape(const Shape<Other_Ty> &other);
 
         /**
          * @brief 将other中的元素赋值给Shape
@@ -201,7 +230,7 @@ FRAMEWORK_NAMESPACE
     constexpr Shape<Ty>::Shape(Iterator first, Iterator last) : father(first, last){};
 
     template <is_Integer Ty>
-    constexpr Shape<Ty>::Shape(const Shape<Ty> &other) noexcept : father(other){};
+    constexpr Shape<Ty>::Shape(const Shape &other) noexcept : father(other){};
 
     template <is_Integer Ty>
     constexpr Shape<Ty>::Shape(Shape && other) noexcept : father(std::move(other)){};
@@ -210,19 +239,88 @@ FRAMEWORK_NAMESPACE
     constexpr Shape<Ty>::Shape(const father &other) noexcept : father(other){};
 
     template <is_Integer Ty>
-    constexpr Shape<Ty>::Shape(std::initializer_list<Ty> init_list) : father(std::move(init_list)){};
+    constexpr Shape<Ty>::Shape(std::initializer_list<Ty> init_list) : father(init_list){};
 
     template <is_Integer Ty>
     constexpr Shape<Ty>::Shape(father && other) noexcept : father(std::move(other)){};
 
     template <is_Integer Ty>
-    constexpr void Shape<Ty>::operator=(const Shape &other)
+    template <is_Integer Other_Ty>
+    constexpr Shape<Ty>::Shape(Shape<Other_Ty> & other) noexcept : father(other.begin(), other.end()){};
+
+    template <is_Integer Ty>
+    constexpr Shape<Ty> &Shape<Ty>::operator=(const Shape &other)
     {
         if (this != std::addressof(other))
         {
-            this->assign(other.begin(), other.end());
+            assign(other.begin(), other.end());
         }
-        return;
+        return *this;
+    };
+
+    template <is_Integer Ty>
+    constexpr Shape<Ty> &Shape<Ty>::operator=(std::initializer_list<Ty> init_list)
+    {
+        this->assign(init_list);
+        return *this;
+    };
+
+    template <is_Integer Ty>
+    template <is_Integer Other_Ty>
+    constexpr Shape<Ty> &Shape<Ty>::operator=(const Shape<Other_Ty> &other)
+    {
+        assign(other.cbegin(), other.cend());
+        return *this;
+    };
+
+    template <is_Integer Ty>
+    constexpr bool Shape<Ty>::operator==(const Shape &other) const
+    {
+        if (this->size() != other.size())
+            return false;
+        auto index = this->begin();
+        auto other_index = other.begin();
+        const auto end_index = this->end();
+        while (index != end_index)
+        {
+            if ((*index) != (*other_index))
+                return false;
+            index++;
+            other_index++;
+        }
+        return true;
+    };
+
+    template <is_Integer Ty>
+    constexpr bool Shape<Ty>::operator!=(const Shape &other) const
+    {
+        return !(*this == other);
+    }
+
+    template <is_Integer Ty>
+    template <is_Integer Other_Ty>
+    constexpr bool Shape<Ty>::operator==(const Shape<Other_Ty> &other) const
+    {
+        if (this->size() != other.size())
+            return false;
+        auto index = this->begin();
+        auto other_index = other.begin();
+        const auto end_index = this->end();
+        while (index != end_index)
+        {
+            if ((*index) != static_cast<value_type>(*other_index))
+                return false;
+            index++;
+            other_index++;
+        }
+        return true;
+    };
+
+    template <is_Integer Ty>
+    template <is_Integer Other_Ty>
+    constexpr bool Shape<Ty>::operator!=(const Shape<Other_Ty> &other) const
+    {
+        return !(*this == other);
     };
 
     template <is_Integer Ty>
@@ -238,6 +336,13 @@ FRAMEWORK_NAMESPACE
     };
 
     template <is_Integer Ty>
+    template <is_Integer Other_Ty>
+    constexpr void Shape<Ty>::reshape(const Shape<Other_Ty> &other)
+    {
+        assign(other.begin(), other.end());
+    };
+
+    template <is_Integer Ty>
     constexpr void Shape<Ty>::reshape(const father &other)
     {
         assign(other.begin(), other.end());
@@ -245,11 +350,26 @@ FRAMEWORK_NAMESPACE
 
     template <is_Integer Ty>
     template <is_Input_Iterator Iterator>
-    constexpr void Shape<Ty>::reshape(Iterator first, Iterator last){
+    constexpr void Shape<Ty>::reshape(Iterator first, Iterator last)
+    {
         assign(first, last);
     };
 
-    // overload iostream
+    // overload ostream
+    template <is_Integer Ty>
+    std::ostream &operator<<(std::ostream &out, Shape<Ty> &&shape)
+    {
+        out.put('[');
+        char common[2] = {'\0', ' '};
+        for (auto it = shape.begin(); it != shape.end(); ++it)
+        {
+            out << common[0] << common[1] << *(it);
+            common[0] = ',';
+        }
+        out.put(']');
+        return out;
+    };
+
     template <is_Integer Ty>
     std::ostream &operator<<(std::ostream &out, Shape<Ty> &shape)
     {

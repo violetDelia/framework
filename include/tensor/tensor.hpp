@@ -59,7 +59,7 @@ FRAMEWORK_NAMESPACE
     protected:
         using vector_type = std::vector<value_type>;
         using vector_const_type = const std::vector<value_type>;
-        using shape_type = Shape<value_type>;
+        using shape_type = Shape<size_type>;
         using shape_reference = shape_type &;
 
     private:
@@ -73,12 +73,31 @@ FRAMEWORK_NAMESPACE
         explicit constexpr Tensor(shape_reference shape, std::initializer_list<size_type> init_list);
 
         template <is_Input_Iterator Iterator>
-        explicit constexpr Tensor(Iterator first, Iterator last);
+        explicit constexpr Tensor(const Iterator first, const Iterator last);
 
+        /**
+         * @brief 返回张量第dimnesion维度的长度
+         *
+         *
+         * @param dimension 维度索引
+         * @return 维度的长度
+         */
         constexpr size_type dim(size_type dimension) const;
 
-        constexpr size_type dim() const;
-
+        /**
+         * @brief 返回张量维度数量
+         * 
+         *
+         * @return 维度数量
+         */
+        constexpr size_type dim_nums() const;
+        
+        /**
+         * @brief 返回张量的形状
+         * 
+         *
+         * @return 形状 Shape
+         */
         constexpr shape_type shape() const;
 
     protected:
@@ -95,7 +114,7 @@ FRAMEWORK_NAMESPACE
 
     //---------- Tensor impletment ----------//
     template <typename Base>
-    constexpr Tensor<Base>::Tensor(){__UN_IMPLEMENTED__};
+    constexpr Tensor<Base>::Tensor() : _operator(), _base(){};
 
     template <typename Base>
     constexpr Tensor<Base>::Tensor(std::initializer_list<size_type> init_list){__UN_IMPLEMENTED__};
@@ -111,13 +130,16 @@ FRAMEWORK_NAMESPACE
     constexpr Tensor<Base>::Tensor(Iterator first, Iterator last){__UN_IMPLEMENTED__};
 
     template <typename Base>
-    constexpr Tensor<Base>::size_type Tensor<Base>::dim(size_type dimension) const{__UN_IMPLEMENTED__ return 0;};
+    constexpr Tensor<Base>::size_type Tensor<Base>::dim(size_type dimension) const { __UN_IMPLEMENTED__ return 0; };
 
     template <typename Base>
-    constexpr Tensor<Base>::size_type Tensor<Base>::dim() const{__UN_IMPLEMENTED__ return 0;};
+    constexpr Tensor<Base>::size_type Tensor<Base>::dim_nums() const { __UN_IMPLEMENTED__ return 0; };
 
     template <typename Base>
-    constexpr Tensor<Base>::shape_type Tensor<Base>::shape() const{__UN_IMPLEMENTED__ return {};};
+    constexpr Tensor<Base>::shape_type Tensor<Base>::shape() const
+    {
+        return _operator.shape(_base);
+    };
 
 } // namespace FRAMEWORK_NAMESPACE
 

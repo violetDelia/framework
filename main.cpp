@@ -15,14 +15,9 @@ int main()
 {
 
     Framework::Tensor<Eigen::Tensor<float, 3>> tensor;
-    Framework::Shape<int> a{1, 2, 3};
-    Framework::Shape<int> c{1, 2, 3};
-    Framework::Shape<int> b;
-    std::cout << b << std::endl;
+    auto a = tensor.shape();
     std::cout << a << std::endl;
 
-
-    // std::cout<<tensor.shape()<<std::endl;
     //  std::cout<<Eigen::Tensor<float, 3>::Scalar_<<std::endl;
     //   std::cout << "adress of _operator" << std::addressof(tensor._operator) << std::endl;
     //   std::cout << typeid(tensor._operator).name() << std::endl;

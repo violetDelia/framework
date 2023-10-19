@@ -23,6 +23,7 @@
 #include "../tensor/tensor_helper.hpp"
 FRAMEWORK_NAMESPACE
 {
+    //---------- _Tensor_Operator_Base define ----------//
     /**
      * @brief Tensor_Operator 的基类
      *
@@ -46,6 +47,8 @@ FRAMEWORK_NAMESPACE
         using value_const_reference = const value_type &;
 
         using size_type = size_t;
+        using shape_type = Shape<size_type>;
+        using shape_reference = shape_type &;
 
     protected:
     private:
@@ -57,48 +60,17 @@ FRAMEWORK_NAMESPACE
         constexpr _Tensor_Operator_Base &operator=(const _Tensor_Operator_Base &other) = default;
         ~_Tensor_Operator_Base() = default;
 
-        // methods
-        /**
-         * @brief 返回矩阵的维度
-         *
-         * @return constexpr size_t 维度
-         */
-        constexpr size_t size() const = delete;
-
-        /**
-         * @brief 返回第pos维度的长度
-         *
-         * @param pos 维度的位置
-         * @return pos维度的长度
-         */
-        constexpr size_t dim(size_type pos) const = delete;
-
         /**
          * @brief 返回矩阵的形状
          *
          *
          * @return Shape
          */
-        constexpr Shape<size_type> dims() const = delete;
+        constexpr shape_type shape(base_const_reference base) const;
 
-        /**
-         * @brief _bese是否为空
-         *
-         *
-         * @return bool
-         */
-        constexpr bool empty() const = delete;
+        constexpr shape_type dim(base_const_reference base, size_type dimension) const;
 
-        /**
-         * @brief 用value填充
-         * 
-         *
-         * @param value 
-         */
-        [[noreturn]] void fill(value_type value) = delete;
-
-        
-
+        constexpr shape_type dims(base_const_reference base) const;
 
     protected:
     private:
@@ -107,6 +79,15 @@ FRAMEWORK_NAMESPACE
     private:
     };
 
+    //---------- _Tensor_Operator_Base impletment ----------//
+    template <typename Base, typename placeholder>
+    constexpr _Tensor_Operator_Base<Base, placeholder>::shape_type _Tensor_Operator_Base<Base, placeholder>::shape(base_const_reference base) const
+    {
+        __UN_IMPLEMENTED__
+        return shape_type();
+    };
+
+    //---------- Tensor_Operator define ----------//
     /**
      * @brief Tensor 计算实际进行操作的单元
      *
@@ -128,6 +109,10 @@ FRAMEWORK_NAMESPACE
         using value_const_pointer = const value_type *;
         using value_reference = value_type &;
         using value_const_reference = const value_type &;
+
+        using size_type = size_t;
+        using shape_type = Shape<size_type>;
+        using shape_reference = shape_type &;
 
     protected:
     private:
@@ -186,7 +171,7 @@ FRAMEWORK_NAMESPACE
      * @tparam Base Eigen::Tensor
      * @tparam placeholder 占位符
      */
-    template <typename Eigen_Tensor>
+    template <is_Eigen_Tensor Eigen_Tensor>
     class Tensor_Operator<Eigen_Tensor, void> : public _Tensor_Operator_Base<Eigen_Tensor>
     {
     public:
@@ -202,36 +187,33 @@ FRAMEWORK_NAMESPACE
         using value_reference = value_type &;
         using value_const_reference = const value_type &;
 
+        using size_type = size_t;
+        using shape_type = Shape<size_type>;
+        using shape_reference = shape_type &;
+
     protected:
     private:
     public:
-        constexpr Tensor_Operator()
-        {
-            std::cout << "Eigen_Tensor_Operator_construct" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
-        constexpr Tensor_Operator(const Tensor_Operator &other)
-        {
-            std::cout << "Eigen_Tensor_Operator_construct" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
-        constexpr Tensor_Operator(Tensor_Operator &&other)
-        {
-            std::cout << "Eigen_Tensor_Operator_move_construct" << std::endl;
-            std::cout << __PRETTY_FUNCTION__ << std::endl
-                      << std::endl;
-        };
+        constexpr Tensor_Operator() = default;
+        constexpr Tensor_Operator(const Tensor_Operator &other) = default;
+        constexpr Tensor_Operator(Tensor_Operator &&other) = default;
         constexpr Tensor_Operator &operator=(const Tensor_Operator &other) = default;
-        
         ~Tensor_Operator() = default;
+
+        constexpr shape_type shape(base_const_reference base) const;
 
     protected:
     private:
     public:
     protected:
     private:
+    };
+
+    template <is_Eigen_Tensor Eigen_Tensor>
+    constexpr Tensor_Operator<Eigen_Tensor, void>::shape_type Tensor_Operator<Eigen_Tensor, void>::shape(base_const_reference base) const
+    {
+        auto dims = base.dimensions();
+        return shape_type(dims.begin(), dims.end());
     };
 }
 #endif // __FRAMWORK__USE__EIGEN__
